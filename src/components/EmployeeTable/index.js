@@ -239,11 +239,6 @@ function EmployeeTable(props) {
     return <TableRows  gender = {employee.gender} firstName={employee.name.first} lastName={employee.name.last} dob={DateFormatting(employee)} email={employee.email} location={LocationNameJoin(employee)} />
     
   })
-    // function EmployeeNameJoin(employee) {
-    //   return employee.name.first + " " + employee.name.last
-    // }
-
-  
 
     function LocationNameJoin(employee) {
       return `${employee.location.street.number}  ${employee.location.street.name}, ${employee.location.city} ${employee.location.postcode}, ${employee.location.state}, ${employee.location.country}`
