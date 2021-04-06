@@ -7,7 +7,8 @@ function TableRows(props) {
     return (
 
         <tr>
-          <td>{props.name}</td>
+          <td>{props.firstName}</td>
+          <td>{props.lastName}</td>
           <td>{props.gender}</td>
           <td>{props.dob}</td>
           <td>{props.email}</td>

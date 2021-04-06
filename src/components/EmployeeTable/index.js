@@ -6,9 +6,13 @@ import API from "../../utils/API";
 function EmployeeTable(props) {
 
   
-  const [employees, setEmployees] = useState([])
+  const [employeesData, setEmployeesData] = useState([])
+  const [employeesFilter, setEmployeesFilter] = useState([])
+  const [filterBy, setFilterBy] = useState('firstname')
+  const [filterStr, setFilter] = useState('')
   const [error, setError] = useState("");
-  console.log("******employees******", employees)
+  console.log("******employees******", employeesData)
+  console.log("******employees******", employeesFilter)
 
   
 
@@ -23,48 +27,103 @@ function EmployeeTable(props) {
     async function getData() {
       const response = await API.searchTerms()
       console.log(response.results)
-      setEmployees(response.results)
+      setEmployeesData(response.results)
+      setEmployeesFilter(response.results)
       
-  
     }
     getData()
-
-  //   API.searchTerms()
-  //     .then(res => {
-  //       if (res.length === 0) {
-  //         throw new Error("No results found.");
-  //       }
-  //       if (res.status === "error") {
-  //         throw new Error(res.message);
-  //       }
-        
-  //       setEmployees(res);
-  //       console.log("**********EMPLOYEES**********", employees)
-  //     })
-  //     .catch(err => setError(err));
   }, []);
 
-  const rows = employees.map(employee => {
-    return <TableRows  gender = {employee.gender} name={employee.email} dob={employee.dob.date} email={employee.email} location={employee.email} />
+  function filterBySearch(operator){
+    console.log(filterStr)
+    console.log(operator)
+    switch(operator) {
+      case "firstname":
+        return employeesData
+              .filter(e => e.name.first.toLowerCase().includes(filterStr.toLowerCase()))
+              .map(e => e)
+      case "lastname":
+        return employeesData
+              .filter(e => e.name.last.toLowerCase().includes(filterStr.toLowerCase()))
+              .map(e => e)
+      case "gender":
+        return employeesData
+        .filter(e => e.gender.toLowerCase().includes(filterStr.toLowerCase()))
+        .map(e => e)
+      case "email":
+        return employeesData
+              .filter(e => e.email.toLowerCase().includes(filterStr.toLowerCase()))
+              .map(e => e)
+      case "location":
+        return employeesData
+              .filter(e => e.location.country.toLowerCase().includes(filterStr.toLowerCase()))
+              .map(e => e)
+    }
+  
+  
+    
+  }
+
+
+  useEffect(() => {
+    setEmployeesFilter(filterBySearch(filterBy))
+  
+  }, [filterStr]);
+
+  const rows = employeesFilter.map(employee => {
+    return <TableRows  gender = {employee.gender} firstName={employee.name.first} lastName={employee.name.last} dob={DateFormatting(employee)} email={employee.email} location={LocationNameJoin(employee)} />
     
   })
-    function populateEmployeeInfo() {
-      return 
+    // function EmployeeNameJoin(employee) {
+    //   return employee.name.first + " " + employee.name.last
+    // }
+
+    function LocationNameJoin(employee) {
+      return `${employee.location.street.number}  ${employee.location.street.name}, ${employee.location.city} ${employee.location.postcode}, ${employee.location.state}, ${employee.location.country}`
+    }
+
+    function DateFormatting(employee){
+      const dateObj = new Date(employee.dob.date)
+      console.log(dateObj)
+      const month = dateObj.getUTCMonth() + 1; //months from 1-12
+      const day = dateObj.getUTCDate();
+      const year = dateObj.getUTCFullYear();
+
+      return `${day}/${month}/${year}`
     }
     return (
 
+      <div>
+        
+        <label>
+          Search by 
+          <select value={filterBy} onChange={ e => setFilterBy(e.target.value) }>
+            <option value="firstname">First Name</option>
+            <option value="lastname">Last Name</option>
+            <option selected value="gender">Gender</option>
+            <option value="email">Email</option>
+            <option value="location">Location (Country only)</option>
 
+          </select>
+          <input
+          type="text"
+          id="myInput"
+          value={ filterStr }
+          onChange={ e => setFilter(e.target.value) } />
+        </label>
+     
         <table id="myTable">
         <tr className="header">
-          <th style={{marginRight: '2em'}} >Name</th>
+          <th style={{marginRight: '2em'}} >First Name</th>
+          <th style={{marginRight: '2em'}} >Last Name</th>
           <th style={{marginRight: '2em'}} >Gender</th>
           <th style={{marginRight: '2em'}} >DOB</th>
           <th style={{marginRight: '2em'}} >Email</th>
           <th style={{marginRight: '2em'}} >Location</th>
         </tr>
         {rows}
-        <TableRows/>
       </table>
+      </div>
 
     
   );
