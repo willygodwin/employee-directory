@@ -1,4 +1,6 @@
-
+th {
+  cursor: pointer;
+}
   
   #myTable {
     border-collapse: collapse; /* Collapse borders */

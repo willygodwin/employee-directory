@@ -5,18 +5,16 @@ import API from "../../utils/API";
 
 function EmployeeTable(props) {
 
-  
+  //hook declaration   
   const [employeesData, setEmployeesData] = useState([])
   const [employeesFilter, setEmployeesFilter] = useState([])
   const [filterBy, setFilterBy] = useState('firstname')
   const [filterStr, setFilter] = useState('')
+  const [sortConfig, setSortConfig] = useState({key:"firstname", direction: "ascending"});
   const [orderCol, setOrderCol] = useState('')
-  const [error, setError] = useState("");
-  console.log("******employees******", employeesData)
-  console.log("******employees******", employeesFilter)
+  const [orderType, setOrderType] = useState('ascending')
 
-
-
+  //Initial data fetch from API
   useEffect(() => {
 
     async function getData() {
@@ -29,13 +27,17 @@ function EmployeeTable(props) {
     getData()
   }, []);
 
+  //Sorting columns 
   useEffect(() => {
-    console.log(orderCol)
-    setEmployeesFilter(sortColumn(orderCol))
+    console.log(sortConfig.key)
+    
+    setEmployeesFilter(sortColumn(sortConfig.key))
  
-  }, [orderCol]);
+  }, [employeesFilter, sortConfig]);
 
+  //Search functino 
   useEffect(() => {
+    
     setEmployeesFilter(filterBySearch(filterBy))
  
   }, [filterStr]);
@@ -53,10 +55,6 @@ function EmployeeTable(props) {
         return employeesData
               .filter(e => e.name.last.toLowerCase().includes(filterStr.toLowerCase()))
               .map(e => e)
-      case "gender":
-        return employeesData
-        .filter(e => e.gender.toLowerCase().includes(filterStr.toLowerCase()))
-        .map(e => e)
       case "email":
         return employeesData
               .filter(e => e.email.toLowerCase().includes(filterStr.toLowerCase()))
@@ -68,34 +66,156 @@ function EmployeeTable(props) {
     }
   }
 
-  function sortByFirstName() {
-    return employeesFilter.sort((a, b) => {
-      let fa = a.name.first.toLowerCase(),
-          fb = b.name.first.toLowerCase();
+  function requestSort(key){
+    let direction = 'ascending';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
+  }
 
-      if (fa < fb) {
-          return -1;
+
+  function sortByFirstName() {
+    if(sortConfig.direction === "ascending"){
+      return employeesFilter.sort((a, b) => {
+        let fa = a.name.first.toLowerCase(),
+            fb = b.name.first.toLowerCase();
+
+        if (fa < fb) {
+            return -1;
+        }
+        if (fa > fb) {
+            return 1;
+        }
+        return 0;
+      });
+    } else if(sortConfig.direction === "descending"){
+      return employeesFilter.sort((a, b) => {
+        let fa = a.name.first.toLowerCase(),
+            fb = b.name.first.toLowerCase();
+
+        if (fa < fb) {
+            return 1;
+        }
+        if (fa > fb) {
+            return -1;
+        }
+        return 0;
+      });
       }
-      if (fa > fb) {
-          return 1;
-      }
-      return 0;
-    });
+
   }
 
   function sortByLastName() {
-    return employeesFilter.sort((a, b) => {
-      let fa = a.name.last.toLowerCase(),
-          fb = b.name.last.toLowerCase();
+    if(sortConfig.direction === "ascending"){
+      return employeesFilter.sort((a, b) => {
+        let fa = a.name.last.toLowerCase(),
+            fb = b.name.last.toLowerCase();
+  
+        if (fa < fb) {
+            return -1;
+        }
+        if (fa > fb) {
+            return 1;
+        }
+        return 0;
+      });
+    } else if(sortConfig.direction === 'descending'){
+        return employeesFilter.sort((a, b) => {
+          let fa = a.name.last.toLowerCase(),
+              fb = b.name.last.toLowerCase();
+    
+          if (fa < fb) {
+              return 1;
+          }
+          if (fa > fb) {
+              return -1;
+          }
+          return 0;
+      });
+    }
+    
+  }
 
-      if (fa < fb) {
-          return -1;
+  function sortByGender() {
+    if(sortConfig.direction === "ascending"){
+      return employeesFilter.sort((a, b) => {
+        let fa = a.gender.toLowerCase(),
+            fb = b.gender.toLowerCase();
+
+        if (fa < fb) {
+            return -1;
+        }
+        if (fa > fb) {
+            return 1;
+        }
+        return 0;
+      });
+    } else if(sortConfig.direction === "descending"){
+      return employeesFilter.sort((a, b) => {
+        let fa = a.gender.toLowerCase(),
+            fb = b.gender.toLowerCase();
+
+        if (fa < fb) {
+            return 1;
+        }
+        if (fa > fb) {
+            return -1;
+        }
+        return 0;
+      });
       }
-      if (fa > fb) {
-          return 1;
+
+  }
+
+  function sortByEmail() {
+    if(sortConfig.direction === "ascending"){
+      return employeesFilter.sort((a, b) => {
+        let fa = a.email.toLowerCase(),
+            fb = b.email.toLowerCase();
+
+        if (fa < fb) {
+            return -1;
+        }
+        if (fa > fb) {
+            return 1;
+        }
+        return 0;
+      });
+    } else if(sortConfig.direction === "descending"){
+      return employeesFilter.sort((a, b) => {
+        let fa = a.email.toLowerCase(),
+            fb = b.email.toLowerCase();
+
+        if (fa < fb) {
+            return 1;
+        }
+        if (fa > fb) {
+            return -1;
+        }
+        return 0;
+      });
       }
-      return 0;
-    });
+
+  }
+  
+  function sortByDOB() {
+    if(sortConfig.direction === "ascending"){
+      return employeesFilter.sort((a, b) => {
+        let da = new Date(a.dob.date),
+            db = new Date(b.dob.date);
+
+        return da - db;
+      });
+    } else if(sortConfig.direction === 'descending'){
+      return employeesFilter.sort((a, b) => {
+        let da = new Date(a.dob.date),
+            db = new Date(b.dob.date);
+
+        return db - da;
+      });
+    }
+    
   }
 
   function sortColumn(operator) {
@@ -106,17 +226,11 @@ function EmployeeTable(props) {
       case "lastname":
         return sortByLastName()
       case "gender":
-        return employeesData
-        .filter(e => e.gender.toLowerCase().includes(filterStr.toLowerCase()))
-        .map(e => e)
+        return sortByGender()
       case "email":
-        return employeesData
-              .filter(e => e.email.toLowerCase().includes(filterStr.toLowerCase()))
-              .map(e => e)
-      case "location":
-        return employeesData
-              .filter(e => e.location.country.toLowerCase().includes(filterStr.toLowerCase()))
-              .map(e => e)
+        return sortByEmail()
+      case "dob":
+        return sortByDOB()
     }
    
   }
@@ -154,7 +268,6 @@ function EmployeeTable(props) {
             <select value={filterBy} onChange={ e => setFilterBy(e.target.value) }>
               <option value="firstname">First Name</option>
               <option value="lastname">Last Name</option>
-              <option selected value="gender">Gender</option>
               <option value="email">Email</option>
               <option value="location">Location (Country only)</option>
 
@@ -171,12 +284,33 @@ function EmployeeTable(props) {
       
           <table id="myTable">
           <tr className="header">
-            <th style={{marginRight: '2em'}} onClick={ () => setOrderCol('firstname')}>First Name</th>
-            <th style={{marginRight: '2em'}} onClick={ () => setOrderCol('lastname')}>Last Name</th>
-            <th style={{marginRight: '2em'}} onClick={ () => setOrderCol('firstname')}>Gender</th>
-            <th style={{marginRight: '2em'}} onClick={ () =>setOrderCol('firstname')}>DOB</th>
-            <th style={{marginRight: '2em'}} onClick={ () => setOrderCol('firstname')}>Email</th>
-            <th style={{marginRight: '2em'}} onClick={ () =>setOrderCol('firstname')}>Location</th>
+            <th style={{marginRight: '2em'}} 
+              onClick={ () => {
+                requestSort('firstname')
+                // setOrderCol('firstname')
+              }}>
+                First Name</th>
+            <th style={{marginRight: '2em'}} onClick={ () => {
+                requestSort('lastname')
+                // setOrderCol('lastname')
+              }}>
+                Last Name</th>
+            <th style={{marginRight: '2em'}} onClick={ () => {
+                requestSort('gender')
+                // setOrderCol()
+              }}>Gender</th>
+            <th style={{marginRight: '2em'}} onClick={ () =>{
+                requestSort('dob')
+                // setOrderCol()
+              }}>DOB</th>
+            <th style={{marginRight: '2em'}} onClick={ () => {
+                requestSort('email')
+                // setOrderCol('email')
+                }}>Email</th>
+            <th style={{marginRight: '2em'}} onClick={ () =>{
+                requestSort()
+                setOrderCol('firstname')
+                }}>Location</th>
           </tr>
           {rows}
         </table>

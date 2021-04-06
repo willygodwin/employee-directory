@@ -5,7 +5,7 @@
 export default {
   searchTerms: function() {
     return fetch(
-      "https://randomuser.me/api/?results=2",
+      "https://randomuser.me/api/?results=20",
      {
       headers:{
         'Content-Type': 'application/json'
