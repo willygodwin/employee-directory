@@ -3,6 +3,9 @@ import './App.css';
 import React, { useState, useEffect } from "react";
 import API from "./utils/API";
 import EmployeeTable from './components/EmployeeTable';
+import Title from './components/Title';
+import Wrapper from './components/Wrapper';
+
 
 console.log(API)
 
@@ -14,7 +17,15 @@ API.searchTerms()
 
 
 function App() {
-  return <EmployeeTable />;
+
+  return  (
+    <Wrapper>
+      <Title>Employee List</Title>
+      <EmployeeTable />;
+    </Wrapper>
+);
+  
+  
 }
 
 export default App;

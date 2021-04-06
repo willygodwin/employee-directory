@@ -7,11 +7,11 @@ function TableRows(props) {
     return (
 
         <tr>
-          <td>Alfreds Futterkiste</td>
-          <td>Germany</td>
-          <td>Germany</td>
-          <td>Germany</td>
-          <td>Germany</td>
+          <td>{props.name}</td>
+          <td>{props.gender}</td>
+          <td>{props.dob}</td>
+          <td>{props.email}</td>
+          <td>{props.location}</td>
         </tr>
 
 
