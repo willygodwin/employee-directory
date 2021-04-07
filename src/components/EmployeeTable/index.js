@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import TableRows from "../TableRows";
 import "./style.css";
 import API from "../../utils/API";
+import uparrow from '../../images/uparrow.png'
+import downarrow from '../../images/downarrow.png'
 
 function EmployeeTable(props) {
 
@@ -68,10 +70,26 @@ function EmployeeTable(props) {
 
   function requestSort(key){
     let direction = 'ascending';
+    const colClass = document.querySelector('.' + key)
+    const colOldClass = document.querySelector('.' + sortConfig.key)
+    console.log(sortConfig)
+      
+
     if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
       direction = 'descending';
+      colClass.classList.remove(`ascending`);
+      colClass.classList.add(`active`);
+      colClass.classList.add('descending');
+      setSortConfig({ key, direction })
     }
-    setSortConfig({ key, direction });
+    else{
+      colOldClass.classList.remove(`active`)
+      colOldClass.classList.remove(sortConfig.direction)
+      colClass.classList.add(`active`);
+      colClass.classList.add(direction);
+      console.log("else", colClass)
+      setSortConfig({ key, direction });
+    }
   }
 
 
@@ -246,7 +264,7 @@ function EmployeeTable(props) {
 
     function DateFormatting(employee){
       const dateObj = new Date(employee.dob.date)
-      console.log(dateObj)
+      // console.log(dateObj)
       const month = dateObj.getUTCMonth() + 1; //months from 1-12
       const day = dateObj.getUTCDate();
       const year = dateObj.getUTCFullYear();
@@ -279,33 +297,47 @@ function EmployeeTable(props) {
       
           <table id="myTable">
           <tr className="header">
-            <th style={{marginRight: '2em'}} 
-              onClick={ () => {
-                requestSort('firstname')
-                // setOrderCol('firstname')
-              }}>
-                First Name</th>
-            <th style={{marginRight: '2em'}} onClick={ () => {
-                requestSort('lastname')
-                // setOrderCol('lastname')
-              }}>
-                Last Name</th>
-            <th style={{marginRight: '2em'}} onClick={ () => {
-                requestSort('gender')
-                // setOrderCol()
-              }}>Gender</th>
-            <th style={{marginRight: '2em'}} onClick={ () =>{
-                requestSort('dob')
-                // setOrderCol()
-              }}>DOB</th>
-            <th style={{marginRight: '2em'}} onClick={ () => {
-                requestSort('email')
-                // setOrderCol('email')
-                }}>Email</th>
-            <th style={{marginRight: '2em'}} onClick={ () =>{
-                requestSort()
-                setOrderCol('firstname')
-                }}>Location</th>
+            <th className='firstname active ascending' style={{marginRight: '2em'}} onClick={ () => {requestSort('firstname')}}>
+              <div className="th-container">First Name
+                  <div className='arrow-container'>
+                    <img src={uparrow} height="8px" width="20px"/>
+                    <img src={downarrow} height="8px" width="20px"/>
+                  </div>
+              </div> 
+            </th>
+            <th className='lastname' style={{marginRight: '2em'}} onClick={ () => {requestSort('lastname')}}>
+                <div className="th-container">Last Name
+                  <div className='arrow-container'>
+                    <img src={uparrow} height="8px" width="20px"/>
+                    <img src={downarrow} height="8px" width="20px"/>
+                  </div>
+                </div> 
+            </th>
+            <th className='gender' style={{marginRight: '2em'}} onClick={ () => {requestSort('gender')}}>  
+                <div className="th-container">Gender
+                  <div className='arrow-container'>
+                    <img src={uparrow} height="8px" width="20px"/>
+                    <img src={downarrow} height="8px" width="20px"/>
+                  </div>
+                </div> 
+            </th>
+            <th className='dob' style={{marginRight: '2em'}} onClick={ () =>{requestSort('dob')}}>
+                <div className="th-container">DOB
+                  <div className='arrow-container'>
+                    <img src={uparrow} height="8px" width="20px"/>
+                    <img src={downarrow} height="8px" width="20px"/>
+                  </div>
+                </div> 
+            </th>
+            <th className='email' style={{marginRight: '2em'}} onClick={ () => {requestSort('email')}}>
+                <div className="th-container">Email
+                  <div className='arrow-container'>
+                    <img src={uparrow} height="8px" width="20px"/>
+                    <img src={downarrow} height="8px" width="20px"/>
+                  </div>
+                </div> 
+            </th>
+            <th style={{marginRight: '2em'}}>Location</th>
           </tr>
           {rows}
         </table>
