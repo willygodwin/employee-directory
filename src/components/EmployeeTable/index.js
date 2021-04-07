@@ -70,24 +70,33 @@ function EmployeeTable(props) {
 
   function requestSort(key){
     let direction = 'ascending';
-    const colClass = document.querySelector('.' + key)
-    const colOldClass = document.querySelector('.' + sortConfig.key)
+    const colClass = document.querySelector('.' + key + ' .' + sortConfig.direction)
+    const sameColNewDir = document.querySelector('.' + sortConfig.key + ' .' + 'ascending')
+    const newColNewDir = document.querySelector('.' + sortConfig.key + ' .' + 'descending')
     console.log(sortConfig)
+    console.log(colClass)
+    
       
 
     if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') {
       direction = 'descending';
-      colClass.classList.remove(`ascending`);
+      // Set the class to active 
+      newColNewDir.classList.remove(`active`)
       colClass.classList.add(`active`);
-      colClass.classList.add('descending');
+      // Set the sort config
       setSortConfig({ key, direction })
     }
-    else{
-      colOldClass.classList.remove(`active`)
-      colOldClass.classList.remove(sortConfig.direction)
+    else if (sortConfig.direction === 'ascending'){
+      // Set the class to active 
+      newColNewDir.classList.remove(`active`)
       colClass.classList.add(`active`);
-      colClass.classList.add(direction);
-      console.log("else", colClass)
+      // Set the sort config
+      setSortConfig({ key, direction });
+    } else {
+      // Set the class to active 
+      sameColNewDir.classList.remove(`active`)
+      colClass.classList.add(`active`);
+      // Set the sort config
       setSortConfig({ key, direction });
     }
   }
@@ -297,43 +306,43 @@ function EmployeeTable(props) {
       
           <table id="myTable">
           <tr className="header">
-            <th className='firstname active ascending' style={{marginRight: '2em'}} onClick={ () => {requestSort('firstname')}}>
+            <th className='firstname' style={{marginRight: '2em'}} onClick={ () => {requestSort('firstname')}}>
               <div className="th-container">First Name
                   <div className='arrow-container'>
-                    <img src={uparrow} height="8px" width="20px"/>
-                    <img src={downarrow} height="8px" width="20px"/>
+                    <img className="ascending" src={uparrow} height="8px" width="20px"/>
+                    <img className="descending" src={downarrow} height="8px" width="20px"/>
                   </div>
               </div> 
             </th>
             <th className='lastname' style={{marginRight: '2em'}} onClick={ () => {requestSort('lastname')}}>
                 <div className="th-container">Last Name
                   <div className='arrow-container'>
-                    <img src={uparrow} height="8px" width="20px"/>
-                    <img src={downarrow} height="8px" width="20px"/>
+                    <img className="ascending" src={uparrow} height="8px" width="20px"/>
+                    <img className="descending" src={downarrow} height="8px" width="20px"/>
                   </div>
                 </div> 
             </th>
             <th className='gender' style={{marginRight: '2em'}} onClick={ () => {requestSort('gender')}}>  
                 <div className="th-container">Gender
                   <div className='arrow-container'>
-                    <img src={uparrow} height="8px" width="20px"/>
-                    <img src={downarrow} height="8px" width="20px"/>
+                    <img className="ascending" src={uparrow} height="8px" width="20px"/>
+                    <img className="descending" src={downarrow} height="8px" width="20px"/>
                   </div>
                 </div> 
             </th>
             <th className='dob' style={{marginRight: '2em'}} onClick={ () =>{requestSort('dob')}}>
                 <div className="th-container">DOB
                   <div className='arrow-container'>
-                    <img src={uparrow} height="8px" width="20px"/>
-                    <img src={downarrow} height="8px" width="20px"/>
+                    <img className="ascending" src={uparrow} height="8px" width="20px"/>
+                    <img className="descending" src={downarrow} height="8px" width="20px"/>
                   </div>
                 </div> 
             </th>
             <th className='email' style={{marginRight: '2em'}} onClick={ () => {requestSort('email')}}>
                 <div className="th-container">Email
                   <div className='arrow-container'>
-                    <img src={uparrow} height="8px" width="20px"/>
-                    <img src={downarrow} height="8px" width="20px"/>
+                    <img className="ascending"  src={uparrow} height="8px" width="20px"/>
+                    <img className="descending" src={downarrow} height="8px" width="20px"/>
                   </div>
                 </div> 
             </th>

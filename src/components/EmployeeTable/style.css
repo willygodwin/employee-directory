@@ -18,6 +18,13 @@ th {
 .arrow-container img{
   padding-bottom: 2px;
 }
+
+.active{
+  filter: opacity(0.5) 
+  /* background-color: crimson; */
+
+}
+
   #myTable {
     border-collapse: collapse; /* Collapse borders */
     width: 100%; /* Full-width */
@@ -45,4 +52,9 @@ th {
     margin-bottom: 1rem;
 
 
+  }
+
+  select {
+    margin-left: 10px;
+    margin-right: 10px;
   }
