@@ -22,6 +22,10 @@ Visit the deployed URL https://employee-directory-will.herokuapp.com/
 Search bar - Choose your filter key and then search by that choice. 
 ![Alt text](/screenshots/search.JPG?raw=true "search")
 
+Sort by Column (Last Name) 
+![Alt text](/screenshots/lastnamefilter.JPG?raw=true "filter last name")
+
+
 ## License
 This project is licensed under the MIT license.
 
