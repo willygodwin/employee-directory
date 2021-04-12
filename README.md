@@ -1,4 +1,4 @@
-# workout-tracker
+# Employee Directory
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
@@ -12,10 +12,10 @@
 
 
 ## Description
-Eat-Da-Burger application allows the user to add new burgers, delete burgers, devour burgers or throw them up (haha).  The application uses mysql for the data storage and has been deployed to heroku. 
+Employee Directory application provides the user with 20 random employees from the random user api. The application uses react to render the table of employees and has sort preferences by a number of columns and search prefernces by a number of filters. The application has been deployed to heroku. 
 
 ## Installation Instructions
-Visit the deployed URL https://workout-tracker-will.herokuapp.com/
+Visit the deployed URL https://employee-directory-will.herokuapp.com/
 
 
 ## Usage Information 
@@ -42,4 +42,4 @@ Email:
 willygodwin47@gmail.com
 
 ## Link to deployed URL 
-https://workout-tracker-will.herokuapp.com/
+https://employee-directory-will.herokuapp.com/
