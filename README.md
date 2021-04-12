@@ -19,8 +19,8 @@ Visit the deployed URL https://employee-directory-will.herokuapp.com/
 
 
 ## Usage Information 
-You can add an exercise or complete an exercise on the landing page and review your statistic on the dashboard
-
+Search bar - Choose your filter key and then search by that choice. 
+![Alt text](/screenshots/search.JPG?raw=true "search")
 
 ## License
 This project is licensed under the MIT license.
