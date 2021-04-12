@@ -22,7 +22,10 @@ Visit the deployed URL https://employee-directory-will.herokuapp.com/
 Search bar - Choose your filter key and then search by that choice. 
 ![Alt text](/screenshots/search.JPG?raw=true "search")
 
-Sort by Column (Last Name) 
+Sort by Column - Date of Birth Ascending
+![Alt text](/screenshots/dobfilter.JPG?raw=true "filter dob")
+
+Sort by Column - Last Name Descending
 ![Alt text](/screenshots/lastnamefilter.JPG?raw=true "filter last name")
 
 
