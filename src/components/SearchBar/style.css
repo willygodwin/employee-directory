@@ -1,0 +1,12 @@
+
+  .search-bar {
+    display: flex;
+    margin-bottom: 1rem;
+
+
+  }
+
+  select {
+    margin-left: 10px;
+    margin-right: 10px;
+  }

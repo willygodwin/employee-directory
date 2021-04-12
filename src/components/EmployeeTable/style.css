@@ -47,14 +47,3 @@ th {
     background-color: #f1f1f1;
   }
 
-  .search-bar {
-    display: flex;
-    margin-bottom: 1rem;
-
-
-  }
-
-  select {
-    margin-left: 10px;
-    margin-right: 10px;
-  }

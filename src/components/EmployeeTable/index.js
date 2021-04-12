@@ -1,41 +1,16 @@
 import React, { useState, useEffect } from "react";
 import TableRows from "../TableRows";
+import TableHeader from "../TableHeader";
+import SearchBar from "../SearchBar";
 import "./style.css";
+// import 'bootstrap/dist/css/bootstrap.css'
 import API from "../../utils/API";
 import uparrow from '../../images/uparrow.png'
 import downarrow from '../../images/downarrow.png'
 
 
-function TableHeader(props) {
-  const headerName = props.headerName
-  const headerKey = props.headerKey
-  const sortKey = props.sortKey
-  const sortDirection = props.sortDirection
-  const onClick = props.onClick
 
-  const isActiveHeader = headerKey === sortKey;
-  function getUpClass() {
-    if (isActiveHeader && sortDirection) {
-      return "active"
-    }
-    return ""
-  }
-  function getDownClass() {
-    if (isActiveHeader && !sortDirection) {
-      return "active"
-    }
-    return ""
-  }
 
-  return <th style={{ marginRight: '2em' }} onClick={() => onClick(headerKey)}>
-    <div className="th-container">{headerName}
-      <div className='arrow-container'>
-        <img src={uparrow} height="8px" width="20px" className={getUpClass()} />
-        <img src={downarrow} height="8px" width="20px" className={getDownClass()} />
-      </div>
-    </div>
-  </th>
-}
 
 function EmployeeTable(props) {
   const [rawData, setRawData] = useState([])
@@ -140,7 +115,17 @@ function EmployeeTable(props) {
   const tableHeaderProps = {
     sortKey,
     sortDirection,
-    onClick: tableHeaderOnClick
+    onClick: tableHeaderOnClick,
+    uparrow,
+    downarrow
+  }
+
+  const searchBarProps ={
+    filterKey,
+    filterStr,
+    onChangeFilterKey: setFilterKey,
+    onChangeFilter: setFilter
+
   }
 
 
@@ -160,35 +145,24 @@ function EmployeeTable(props) {
   return (
 
     <div>
-      <div className="search-bar">
-
-        <label>
-          Search by
-            <select value={filterKey} onChange={e => setFilterKey(e.target.value)}>
-            <option value="firstname">First Name</option>
-            <option value="lastname">Last Name</option>
-            <option value="email">Email</option>
-            <option value="location">Location (Country only)</option>
-          </select>
-          <input
-            type="text"
-            id="myInput"
-            value={filterStr}
-            onChange={e => setFilter(e.target.value)} />
-        </label>
-      </div>
+      <SearchBar {...searchBarProps}/>
 
       <div>
-        <table id="myTable">
-          <tr className="header">
-            <TableHeader headerKey="firstname" headerName="First Name" {...tableHeaderProps} />
-            <TableHeader headerKey="lastname" headerName="Last Name" {...tableHeaderProps} />
-            <TableHeader headerKey="gender" headerName="Gender"  {...tableHeaderProps} />
-            <TableHeader headerKey="dob" headerName="DOB" {...tableHeaderProps} />
-            <TableHeader headerKey="email" headerName="Email" {...tableHeaderProps} />
-            <TableHeader headerKey="" headerName="Location" onClick={() => ({})} />
-          </tr>
-          {rows}
+        <table id="myTable" className="table">
+          <thead>
+            <tr className="header">
+              <TableHeader headerKey="firstname" headerName="First Name" {...tableHeaderProps} />
+              <TableHeader headerKey="lastname" headerName="Last Name" {...tableHeaderProps} />
+              <TableHeader headerKey="gender" headerName="Gender"  {...tableHeaderProps} />
+              <TableHeader headerKey="dob" headerName="DOB" {...tableHeaderProps} />
+              <TableHeader headerKey="email" headerName="Email" {...tableHeaderProps} />
+              <TableHeader headerKey="" headerName="Location" onClick={() => ({})} uparrow="" downarrow="" />
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+          
         </table>
       </div>
     </div>
